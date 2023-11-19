@@ -3,6 +3,8 @@ Trabalho da matéria de Algoritmos e Programação II - Professor: Jânio E. Tei
 
 > Sistema que simula as operações de um CRUD em um contexto de IPO de fundos imobiliários (fiis).
 
+> IPO de fiis: Fundo Imobliário ofece cotas para o mercado pela primeira vez.  
+
 ## 🛠️ Funcionalidades 
 - Cadastrar Fii
 - Listar Fiis (ordenação por atributo)
