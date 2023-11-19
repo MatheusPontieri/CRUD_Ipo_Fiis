@@ -8,3 +8,6 @@ Trabalho da matéria de ALGORITMOS E PROGRAMAÇÃO II - Professor: Jânio E. Tei
 - Listar Fiis (ordenação por atributo)
 - Atualizar Fii
 - Deletar Fii
+
+## Modelagem Uml
+![uml_png](https://github.com/MatheusPontieri/CRUD_Ipo_Fiis/blob/main/modelagem_uml.png)
