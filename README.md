@@ -10,4 +10,4 @@ Trabalho da matéria de ALGORITMOS E PROGRAMAÇÃO II - Professor: Jânio E. Tei
 - Deletar Fii
 
 ## Modelagem Uml
-![uml_png](https://github.com/MatheusPontieri/CRUD_Ipo_Fiis/blob/main/modelagem_uml.png)
+![uml_png](https://github.com/MatheusPontieri/CRUD_Ipo_Fiis/blob/main/modelagem_Uml.png)
