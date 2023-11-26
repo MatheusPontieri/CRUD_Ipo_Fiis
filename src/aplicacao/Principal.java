@@ -1,21 +1,22 @@
 package aplicacao;
 
 import java.util.HashMap;
+import java.util.InputMismatchException;
 import java.util.Map;
 import java.util.Scanner;
 
 import modelo.*;
 
 public class Principal {
+    private static Scanner read = new Scanner(System.in);
+
     public static void main(String[] args) {
-        Scanner read = new Scanner(System.in);
         Integer opc = 0;
         Map<String, FundoImobiliario> listaMap = new HashMap<>();
         
         while(opc != null){
             Menu.menuCrud();
-            System.out.print("Opção: ");
-            opc = read.nextInt();
+            opc = tratarValor();
 
             switch(opc){
                 case 1 -> FundoImobiliario.adicionarFii(listaMap);
@@ -28,4 +29,23 @@ public class Principal {
             System.out.println();
         }
     }
+
+    public static Integer tratarValor(){
+        int tentativas = 3;
+
+        while(tentativas >= 1){
+            try {
+                System.out.print("Opcao: ");
+                return read.nextInt();
+            } catch(InputMismatchException e){
+                System.out.println("\nDigite um número!");
+            } finally {
+                read.nextLine();
+            }
+            System.out.println(--tentativas+" tentivas restantes!");
+        }
+
+        return 0;
+    }
+
 }
