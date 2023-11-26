@@ -45,7 +45,8 @@ public class Principal {
             System.out.println(--tentativas+" tentivas restantes!");
         }
 
-        return 0;
+        System.out.print("\n3 tentativas inválidas! Saindo do Sistema!");
+        return 5;
     }
 
 }
