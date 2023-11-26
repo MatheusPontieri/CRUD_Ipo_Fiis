@@ -2,11 +2,17 @@ package modelo;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.regex.Pattern;
+
+import aplicacao.Principal;
 
 public class Evento {
+    private static Scanner read = new Scanner(System.in);
+
     private String descricao;
     private LocalDate data;
 
@@ -21,19 +27,20 @@ public class Evento {
 
     public static List<Evento> criarEventos(){
         List<Evento> eventos = new ArrayList<>();
-        Scanner read = new Scanner(System.in);
 
         System.out.print("\nDeseja cadastrar quantos eventos: ");
         int num = read.nextInt();
+        read.nextLine(); // Limpando buffer do Scanner
+
         if(num == 0) return null;
 
         for (int i = 0; i < num; i++) {
             Evento evento = new Evento();
-            System.out.print("\nDescrição: ");
-            evento.setDescricao(read.next());
 
-            System.out.print("Data (dd/mm/yyyy): ");
-            evento.setData(LocalDate.parse(read.next(), DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+            System.out.print("\nDescrição: ");
+            evento.setDescricao(read.nextLine());
+
+            evento.setData(tratarData());
 
             eventos.add(evento);
         }
@@ -45,7 +52,6 @@ public class Evento {
         if(eventosNuloVazio(fii.getListaEventos())) 
             return criarEventos(); 
 
-        Scanner read = new Scanner(System.in);
         List<Evento> eventosList = fii.getListaEventos();
 
         System.out.println("\n");
@@ -61,13 +67,14 @@ public class Evento {
 
         Evento evento = eventosList.get(opc);
 
-        System.out.print("\n[1] - Descricao\n[2] - Data\nOpcao: ");
-        Integer alterarOpc = read.nextInt();
+        System.out.println("\n[1] - Descricao\n[2] - Data: ");
+        Integer alterarOpc = Principal.tratarValor();
 
         System.out.print("Alteracao: ");
         switch(alterarOpc){
-            case 1 -> evento.setDescricao(read.next());
-            case 2 -> evento.setData(LocalDate.parse(read.next(), DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+            case 1 -> evento.setDescricao(read.nextLine());
+            case 2 -> evento.setData(tratarData());
+            case -1 -> System.out.println("Insira Dados Corretos!");
             default -> System.out.println("Opcão Invalida!");
         }
 
@@ -78,7 +85,10 @@ public class Evento {
 
     public static void imprimirEvento(Evento e){
         System.out.println("Descricao: "+e.getDescricao());
-        System.out.println("Data: "+e.getData().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+        if (e.getData() != null)
+            System.out.println("Data: "+ e.getData().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+        else    
+            System.out.println("Data: Inválida!");
         System.out.println();
     }
 
@@ -90,6 +100,26 @@ public class Evento {
         return false;
 
     } 
+
+    public static LocalDate tratarData(){
+        int tentativas = 3;
+
+        while (tentativas >= 1) {
+            try {
+                System.out.print("Data: (dd/mm/yyyy) ");
+                return LocalDate.parse(read.next(), DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+            }
+            catch (DateTimeParseException e){
+                System.out.println("\nTente novamente no formato solicitado!");
+            }
+            finally {
+                read.nextLine();
+            }
+            System.out.println(--tentativas+" tentativas restantes!");
+        }
+        
+        return null;
+    }
 
     public String getDescricao() {
         return descricao;
