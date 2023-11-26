@@ -8,6 +8,8 @@ import java.util.Scanner;
 import aplicacao.Menu;
 
 public class FundoImobiliario {
+    private static Scanner read = new Scanner(System.in);
+
     private String nome;
     private String ticker;
     private Double precoInicial;
@@ -30,10 +32,9 @@ public class FundoImobiliario {
 
     public static void adicionarFii(Map<String, FundoImobiliario> fiisMap){
         FundoImobiliario fii = new FundoImobiliario();
-        Scanner read = new Scanner(System.in);
 
         System.out.print("\nNome do Fii: ");
-        fii.setNome(read.next());
+        fii.setNome(read.nextLine());
 
         System.out.print("Ticker: ");
         fii.setTicker(read.next());
@@ -47,6 +48,7 @@ public class FundoImobiliario {
         Segmento.menuSegmento();
         System.out.print("Opção: ");
         fii.setSegmento(Segmento.valueOf(read.nextInt()));
+        read.nextLine();
 
         fii.setListaEventos(Evento.criarEventos());
 
@@ -54,12 +56,12 @@ public class FundoImobiliario {
     }
 
     public static void listarFii(Map<String, FundoImobiliario> fiisMap){
-        Scanner read = new Scanner(System.in);
         List<FundoImobiliario> lista = new ArrayList<>(fiisMap.values());
 
         Menu.menuListar();
         System.out.print("Ordenar por qual atributo: ");
         Integer opc = read.nextInt();
+        read.nextLine();
 
         switch(opc){
             case 1 -> lista.sort((fii1, fii2) -> fii1.getNome().toLowerCase().compareTo(fii2.getNome().toLowerCase()));
@@ -75,8 +77,6 @@ public class FundoImobiliario {
     }
 
     public static void atualizarFii(Map<String, FundoImobiliario> fiisMap){
-        Scanner read = new Scanner(System.in);
-
         System.out.print("\nDigite o Ticker do Fii a ser atualizado: ");
         String ticker = read.next();
 
@@ -90,23 +90,29 @@ public class FundoImobiliario {
             System.out.print("Atualizacao: ");
             
             switch(opc){
-                case 1 -> fii.setNome(read.next());
-                case 2 -> fii.setTicker(read.next());
-                case 3 -> fii.setPrecoInicial(read.nextDouble());
-                case 4 -> fii.setInvestidorQualificado(read.nextBoolean());
+                case 1 -> fii.setNome(read.nextLine());
+                case 2 -> {
+                    fii.setTicker(read.next());
+                    fiisMap.remove(ticker);
+                    fiisMap.put(fii.getTicker(), fii);
+                    read.nextLine();
+                }
+                case 3 -> {fii.setPrecoInicial(read.nextDouble()); read.nextLine();}
+                case 4 -> {fii.setInvestidorQualificado(read.nextBoolean()); read.nextLine();}
                 case 5 -> fii.setSegmento(Segmento.alterarSegmento());
                 case 6 -> fii.setListaEventos(Evento.alterarEvento(fii));
                 default -> System.out.println("Opcao Invalida!");
             }
+
         }
         else System.out.println("Ticker Nao Encontrado!");
+
     }
 
     public static void deletarFii(Map<String, FundoImobiliario> listaMap){
-        Scanner read = new Scanner(System.in);
-
         System.out.print("\nDigite o Ticker do fii: ");
         String ticker = read.next();
+        read.nextLine();
 
         if(listaMap.containsKey(ticker)) {
             listaMap.remove(ticker);
